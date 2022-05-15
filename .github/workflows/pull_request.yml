@@ -1,0 +1,99 @@
+name: PR Update
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  node_version: 18
+  pr_id: ${{ github.event.number }}
+
+concurrency:
+  group: pr-update-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  setup:
+    name: NPM install & cache
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set nodeJs version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node_version }}
+
+      - name: node_modules cache
+        id: node-modules-cache
+        uses: actions/cache@v3
+        env:
+          cache_name: node-modules-npm
+          cache_key: ${{ env.node_version }}-${{ hashFiles('package-lock.json') }}
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache_name }}-${{ env.cache_key }}
+          restore-keys: ${{ runner.os }}-${{ env.cache_name }}-
+
+      - name: NPM install
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+  lint:
+    name: Linters
+
+    runs-on: ubuntu-latest
+
+    needs: setup
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set nodeJs version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node_version }}
+
+      - name: Restore node_modules from cache
+        uses: actions/cache@v3
+        env:
+          cache_name: node-modules-npm
+          cache_key: ${{ env.node_version }}-${{ hashFiles('package-lock.json') }}
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache_name }}-${{ env.cache_key }}
+
+      - name: Lint the code
+        run: npm run lint
+
+  test:
+    name: Unit tests
+
+    runs-on: ubuntu-latest
+
+    needs: setup
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set nodeJs version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node_version }}
+
+      - name: Restore node_modules from cache
+        uses: actions/cache@v3
+        env:
+          cache_name: node-modules-npm
+          cache_key: ${{ env.node_version }}-${{ hashFiles('package-lock.json') }}
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache_name }}-${{ env.cache_key }}
+
+      - name: Run unit tests
+        run: npm test
