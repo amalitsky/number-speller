@@ -1,0 +1,40 @@
+name: Publish npm package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ secrets.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: node_modules cache
+        id: node-modules-cache
+        uses: actions/cache@v3
+        env:
+          cache_name: node-modules-npm
+          cache_key: ${{ env.node_version }}-${{ hashFiles('package-lock.json') }}
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache_name }}-${{ env.cache_key }}
+          restore-keys: ${{ runner.os }}-${{ env.cache_name }}-
+
+      - run: npm ci
+
+      - run: npm lint
+
+      - run: npm test
+
+      # build is performed by prePublish hook
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

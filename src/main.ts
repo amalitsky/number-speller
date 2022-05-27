@@ -140,7 +140,11 @@ function spellNumberGroup(value: number): string {
 /**
  * Spell out an integer from 0 to 1000 billion minus one.
  */
-export function numberSpeller(value: number): string {
+export function spellNumber(value: number): string {
+  if (typeof value !== 'number' || Number.isNaN(value)) {
+    throw Error('Value passed is not a number');
+  }
+
   value = Math.floor(value);// work with integers only
 
   if (value < 0) {

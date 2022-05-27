@@ -2,13 +2,24 @@
   "name": "number-speller",
   "version": "1.0.0",
   "description": "Spells number in English language",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "__eslint": "eslint --quiet --ext .ts",
     "eslint-all": "npm run __eslint ./",
-    "test": "node --loader ts-node/esm test.ts",
+    "test": "node --loader ts-node/esm src/tests.ts",
     "tsc-check": "tsc --noEmit",
-    "lint": "npm run eslint-all && npm run tsc-check"
+    "lint": "npm run eslint-all && npm run tsc-check",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -36,9 +47,10 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.26.0",
     "ts-node": "^10.8.0",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.2",
+    "tsup": "^6.0.1"
   },
   "engines": {
-    "node": "18.x.x"
+    "node": ">=16.0.0"
   }
 }

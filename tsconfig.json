@@ -22,9 +22,10 @@
     "inlineSourceMap": false,
     "importHelpers": true,
     "rootDir": "./",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "noEmit": true,
   },
   "include": [
-    "index.ts"
+    "src/index.ts"
   ],
 }

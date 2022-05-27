@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  node_version: 18
+  node_version: ${{ secrets.NODE_VERSION }}
   pr_id: ${{ github.event.number }}
 
 concurrency:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set nodeJs version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.node_version }}
 
@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set nodeJs version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.node_version }}
 
@@ -82,7 +82,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set nodeJs version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.node_version }}
 
