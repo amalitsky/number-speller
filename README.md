@@ -5,8 +5,7 @@ I.e:
 - `spellNumber(7598025)` > _seven million five hundred ninety eight thousand twenty five_
 - `spellNumber(900000000)` > _nine hundred million_
 
-This package doesn't use third party dependencies and can be
-used in a browser as well as nodeJs applications.
+Can be used in a browser as well and nodeJs applications.
 Witten in TypeScript and covered with [unit tests](/src/tests.ts).
 
 **[Online Demo](https://lab.amalitsky.com/projects/number-speller)**
@@ -21,9 +20,10 @@ or
 ```js
 const { spellNumber } = require('number-speller');
 ```
-for commonJs.
+for commonJs environment.
 
 ## API
+Module exports:
 - `spellNumber` function accepts a single argument - number to be spelled and returns a string.
 - `maxSupportedNumber` constant with the maximum number currently supported by the module.
 
