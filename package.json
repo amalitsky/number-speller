@@ -1,6 +1,6 @@
 {
   "name": "number-speller",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Spells number in English language",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
