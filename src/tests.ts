@@ -3,7 +3,7 @@ import test from 'node:test';
 import { strict as assert } from 'node:assert';
 
 // @ts-ignore
-import { numberSpeller } from './main.ts';
+import { spellNumber } from './main.ts';
 
 const tests = [{
   input: 0,
@@ -56,7 +56,7 @@ const tests = [{
 test('basic spelling tests', async (t) => {
   const promises = tests.map(({ input, output }) => {
     return t.test(`spells out ${ input } as expected`, () => {
-      const result = numberSpeller(input);
+      const result = spellNumber(input);
 
       assert.equal(result, output);
     });
@@ -68,17 +68,29 @@ test('basic spelling tests', async (t) => {
 test('throws on faulty inputs', async (t) => {
   await t.test('negative number', () => {
     assert.throws(() => {
-      numberSpeller(-1);
+      spellNumber(-1);
     });
   });
 
   await t.test('number too large', () => {
     assert.throws(() => {
-      numberSpeller(Number.MAX_SAFE_INTEGER);
+      spellNumber(Number.MAX_SAFE_INTEGER);
+    });
+  });
+
+  await t.test('string', () => {
+    assert.throws(() => {
+      spellNumber('aaaa');
+    });
+  });
+
+  await t.test('NaN is passed', () => {
+    assert.throws(() => {
+      spellNumber(NaN);
     });
   });
 });
 
 test('drops decimal fraction for non round numbers', () => {
-  assert.equal(numberSpeller(111.88), 'one hundred eleven');
+  assert.equal(spellNumber(111.88), 'one hundred eleven');
 });
