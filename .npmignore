@@ -1,0 +1,5 @@
+/.github
+tsconfig.json
+/*.cjs
+/.idea
+/src
