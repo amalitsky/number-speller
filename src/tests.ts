@@ -1,6 +1,6 @@
-// @ts-ignore
-import test from 'node:test';
 import { strict as assert } from 'node:assert';
+// eslint-disable-next-line
+import test from 'node:test';
 
 // @ts-ignore
 import { spellNumber } from './main.ts';
@@ -80,6 +80,7 @@ test('throws on faulty inputs', async (t) => {
 
   await t.test('string', () => {
     assert.throws(() => {
+      // @ts-ignore
       spellNumber('aaaa');
     });
   });

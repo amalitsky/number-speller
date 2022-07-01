@@ -9,6 +9,6 @@ updates:
     reviewers:
       - "amalitsky"
     labels:
-      - "dependencies"
+      - "dependency"
       - "dependabot"
     open-pull-requests-limit: 7
